@@ -12,7 +12,6 @@ import retrofit2.Response
 
 class MainActivity2 : AppCompatActivity() {
     private var recipeDetails: List<RecipeDeta.recDatum>? = null
-    private lateinit var tvData: TextView
     lateinit var rvRecip: RecyclerView
 
 
@@ -20,7 +19,7 @@ class MainActivity2 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main2)
 
-        rvRecip = findViewById(R.id.rvRecipes)
+        rvRecip = findViewById(R.id.rvdata)
         val apiInterface = ApiClient().getClient()?.create(ApiInterface::class.java)
         if (apiInterface != null) {
             apiInterface.getRecipies()?.enqueue(object : Callback<List<RecipeDeta.recDatum>> {
@@ -28,8 +27,9 @@ class MainActivity2 : AppCompatActivity() {
                     call: Call<List<RecipeDeta.recDatum>>,
                     response: Response<List<RecipeDeta.recDatum>>
                 ) {
-                    response.body()!!
-
+                    recipeDetails = response.body()!!
+                    rvRecip.adapter = RecipeAdap(this@MainActivity2, recipeDetails!!)
+                    rvRecip.layoutManager = LinearLayoutManager(this@MainActivity2)
                 }
 
                 override fun onFailure(call: Call<List<RecipeDeta.recDatum>>, t: Throwable) {
@@ -41,7 +41,6 @@ class MainActivity2 : AppCompatActivity() {
 
 
     }
-
 
 
 
