@@ -8,6 +8,8 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.example.recipeapp.Model.Recipe
+import com.example.recipeapp.Model.RecipeDatabase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -34,37 +36,23 @@ class MainActivity : AppCompatActivity() {
 
 
         btnSave.setOnClickListener {
-            var f = RecipeDeta.recDatum(
-                etTitle.text.toString(), etAuther.text.toString(),
-                etIngred.text.toString(), edInstruc.text.toString()
-            )
+            val title = etTitle.text.toString()
+            val author = etAuther.text.toString()
+            val ingredients = etIngred.text.toString()
+            val instructions = edInstruc.text.toString()
+            if (title.isNotEmpty() && author.isNotEmpty() && ingredients.isNotEmpty() && instructions.isNotEmpty()) {
+                val recipe = Recipe(0, author, ingredients, instructions, title)
+                RecipeDatabase.getInstance(applicationContext).RecipeDao().addR(recipe)
 
-            val apiInterface = ApiClient().getClient()?.create(ApiInterface::class.java)
-
-            if (apiInterface != null) {
-                apiInterface.addRecipie(f).enqueue(object : Callback<RecipeDeta.recDatum> {
-                    override fun onResponse(
-                        call: Call<RecipeDeta.recDatum>,
-                        response: Response<RecipeDeta.recDatum>
-                    ) {
-
-                        etTitle.setText("")
-                        etAuther.setText("")
-                        etIngred.setText("")
-                        edInstruc.setText("")
-                        Toast.makeText(applicationContext, "Save Success!", Toast.LENGTH_SHORT).show();
-                    }
-
-                    override fun onFailure(call: Call<RecipeDeta.recDatum>, t: Throwable) {
-                        etTitle.setText("")
-                        etAuther.setText("")
-                        etIngred.setText("")
-                        edInstruc.setText("")
-                        Toast.makeText(applicationContext, "somthing went wrong!", Toast.LENGTH_SHORT).show();
-
-                    }
-                })
+            } else {
+                Toast.makeText(applicationContext, "please enter all fields", Toast.LENGTH_SHORT)
+                    .show()
             }
+            etTitle.text.clear()
+            etAuther.text.clear()
+            etIngred.text.clear()
+            edInstruc.text.clear()
+
         }
 
         btnView.setOnClickListener {

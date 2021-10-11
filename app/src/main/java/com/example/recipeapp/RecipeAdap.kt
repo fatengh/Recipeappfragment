@@ -1,18 +1,16 @@
 package com.example.recipeapp
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.RecyclerView
-
+import com.example.recipeapp.Model.Recipe
 import kotlinx.android.synthetic.main.card.view.*
-import retrofit2.Callback
 
-class RecipeAdap(private val context: Context, val recapis: List<RecipeDeta.recDatum>) :
+
+class RecipeAdap(private val context: Context, val recapis: List<Recipe>) :
     RecyclerView.Adapter<RecipeAdap.MessageViewHolder>() {
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
