@@ -1,20 +1,16 @@
 package com.example.recipeapp
 
 
-import android.app.ProgressDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Toast
-import com.example.recipeapp.Model.Recipe
-import com.example.recipeapp.Model.RecipeDatabase
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+
+
 
 class MainActivity : AppCompatActivity() {
+    lateinit var mmv: MainViewModel
 
     private lateinit var etTitle: EditText
     private lateinit var etAuther: EditText
@@ -27,6 +23,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mmv= MainViewModel(application)
+
         etTitle = findViewById(R.id.etTitle)
         etAuther = findViewById(R.id.etAuther)
         etIngred = findViewById(R.id.etIngred)
@@ -36,18 +34,12 @@ class MainActivity : AppCompatActivity() {
 
 
         btnSave.setOnClickListener {
-            val title = etTitle.text.toString()
-            val author = etAuther.text.toString()
-            val ingredients = etIngred.text.toString()
-            val instructions = edInstruc.text.toString()
-            if (title.isNotEmpty() && author.isNotEmpty() && ingredients.isNotEmpty() && instructions.isNotEmpty()) {
-                val recipe = Recipe(0, author, ingredients, instructions, title)
-                RecipeDatabase.getInstance(applicationContext).RecipeDao().addR(recipe)
 
-            } else {
-                Toast.makeText(applicationContext, "please enter all fields", Toast.LENGTH_SHORT)
-                    .show()
-            }
+            var title = etTitle.text.toString()
+            var author = etAuther.text.toString()
+            var ingredients = etIngred.text.toString()
+            var instructions = edInstruc.text.toString()
+            mmv.addR( author, ingredients, instructions, title)
             etTitle.text.clear()
             etAuther.text.clear()
             etIngred.text.clear()
