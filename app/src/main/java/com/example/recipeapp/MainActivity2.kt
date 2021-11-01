@@ -2,14 +2,8 @@ package com.example.recipeapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recipeapp.Model.RecipeDatabase
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity2 : AppCompatActivity() {
     lateinit var rvRecip: RecyclerView
