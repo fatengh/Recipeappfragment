@@ -5,18 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.Model.Recipe
 import kotlinx.android.synthetic.main.card.view.*
 
 
-class RecipeAdap(private val context: Context, val recapis: List<Recipe>) :
+class RecipeAdap(private val listFragment: ListRecipe) :
     RecyclerView.Adapter<RecipeAdap.MessageViewHolder>() {
     class MessageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private var recapis = emptyList<Recipe>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         return MessageViewHolder(
-            LayoutInflater.from(context).inflate(
+            LayoutInflater.from(parent.context).inflate(
                 R.layout.card,
                 parent,
                 false
@@ -41,4 +43,9 @@ class RecipeAdap(private val context: Context, val recapis: List<Recipe>) :
     }
 
     override fun getItemCount() = recapis.size
+
+    fun updaterv(notes: List<Recipe>){
+        this.recapis = notes
+        notifyDataSetChanged()
+    }
 }
